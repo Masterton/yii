@@ -4,12 +4,13 @@
  * LoginForm class.
  * LoginForm is the data structure for keeping
  * user login form data. It is used by the 'login' action of 'SiteController'.
+ * 数据采集后使用，使用后被丢弃就是用 CFormModel 类
  */
 class LoginForm extends CFormModel
 {
 	public $username;
 	public $password;
-	public $rememberMe;
+	public $rememberMe=false;//是否项记住登录状态
 
 	private $_identity;
 
@@ -17,15 +18,16 @@ class LoginForm extends CFormModel
 	 * Declares the validation rules.
 	 * The rules state that username and password are required,
 	 * and password needs to be authenticated.
+	 * 检验的规则
 	 */
 	public function rules()
 	{
 		return array(
-			// username and password are required
+			// username and password are required 必填
 			array('username, password', 'required'),
-			// rememberMe needs to be a boolean
+			// rememberMe needs to be a boolean 是boolean类型
 			array('rememberMe', 'boolean'),
-			// password needs to be authenticated
+			// password needs to be authenticated 将被检验
 			array('password', 'authenticate'),
 		);
 	}
@@ -43,6 +45,7 @@ class LoginForm extends CFormModel
 	/**
 	 * Authenticates the password.
 	 * This is the 'authenticate' validator as declared in rules().
+	 * 检验密码的方法
 	 */
 	public function authenticate($attribute,$params)
 	{
